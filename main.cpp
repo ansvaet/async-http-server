@@ -15,9 +15,7 @@ const int CHECK_INTERVAL = 1;
 volatile bool running = true;
 
 
-
 int main() {
- 
 
     int server_fd = -1;
     int epoll_fd = -1;
@@ -30,7 +28,7 @@ int main() {
             throw std::runtime_error("epoll_create1 failed: " + std::string(strerror(errno)));
         }
 
-        struct epoll_event event;
+        struct epoll_event event {};
         event.events = EPOLLIN | EPOLLET;
         event.data.fd = server_fd;
         if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, server_fd, &event) == -1) {
@@ -72,7 +70,7 @@ int main() {
                         Connection* conn = get_connection(notification.fd);
                         if (conn) {
                             // epoll на запись
-                            struct epoll_event ev;
+                            struct epoll_event ev {};
                             ev.events = EPOLLOUT | EPOLLRDHUP ;
                             ev.data.ptr = conn;
                             epoll_ctl(epoll_fd, EPOLL_CTL_MOD, notification.fd, &ev);

@@ -84,7 +84,7 @@ void handle_new_connection(int server_fd, int epoll_fd) {
 
         Connection* conn = create_connection(client_fd, epoll_fd);
 
-        struct epoll_event event;
+        struct epoll_event event {};
         event.events = EPOLLIN | EPOLLRDHUP | EPOLLET;
         event.data.ptr = conn;
         epoll_ctl(epoll_fd, EPOLL_CTL_ADD, client_fd, &event);
@@ -118,7 +118,7 @@ void handle_read(Connection* conn, int epoll_fd) {
 
         if (conn->headers_receive()) {
 
-            struct epoll_event event;
+            struct epoll_event event {};
             event.events = EPOLLRDHUP | EPOLLET; 
             event.data.ptr = conn;
             epoll_ctl(epoll_fd, EPOLL_CTL_MOD, conn->fd, &event);
@@ -192,7 +192,7 @@ void handle_write(Connection* conn, int epoll_fd) {
             if (conn->keep_alive && !conn->should_close()) {
                 conn->handle_keep_alive();
 
-                struct epoll_event event;
+                struct epoll_event event {};
                 event.events = EPOLLIN | EPOLLRDHUP | EPOLLET;
                 event.data.ptr = conn;
 
@@ -240,8 +240,7 @@ void setup_server_socket(int& server_fd, int port) {
 
     set_nonblocking(server_fd);
 
-    struct sockaddr_in address;
-    memset(&address, 0, sizeof(address));
+    struct sockaddr_in address {};
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(port);
