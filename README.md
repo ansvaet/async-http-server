@@ -23,7 +23,7 @@ A high-performance asynchronous HTTP server built with **Reactor + Thread Pool**
 
 ## Architecture
 
-### High-Level Overview
+### Overview
 ```
 ┌─────────────────────────────────────────────────────┐
 │                    Main Thread (Reactor)            │
@@ -81,9 +81,6 @@ Server will start on `localhost:8080`. Test it:
 curl http://localhost:8080/
 # Output: Processed in thread pool. Path: /
 ```
-
-## Performance
-
 
 ## HTTP Features
 
