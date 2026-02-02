@@ -6,19 +6,6 @@ A high-performance asynchronous HTTP server built with **Reactor + Thread Pool**
 [![C++17](https://img.shields.io/badge/C++-17-blue.svg)](https://en.cppreference.com/w/cpp/17)
 [![WSL](https://img.shields.io/badge/WSL-2-5d5fe3.svg)](https://docs.microsoft.com/en-us/windows/wsl/)
 
-## 📋 Table of Contents
-- [Features](#-features)
-- [Architecture](#-architecture)
-- [Quick Start](#-quick-start)
-- [Building](#-building)
-- [Performance](#-performance)
-- [Project Structure](#-project-structure)
-- [HTTP Features](#-http-features)
-- [Development](#-development)
-- [Roadmap](#-roadmap)
-- [Contributing](#-contributing)
-- [License](#-license)
-
 ## Features
 
 ### **Architectural**
@@ -55,18 +42,6 @@ A high-performance asynchronous HTTP server built with **Reactor + Thread Pool**
 └─────────────────────────────────────────────────────┘
 ```
 
-### Connection State Machine
-```mermaid
-stateDiagram-v2
-    [*] --> READING_REQUEST
-    READING_REQUEST --> PROCESSING: Headers received
-    PROCESSING --> WRITING_RESPONSE: Response ready
-    WRITING_RESPONSE --> KEEP_ALIVE_WAITING: Keep-alive
-    WRITING_RESPONSE --> CLOSING: Close connection
-    KEEP_ALIVE_WAITING --> READING_REQUEST: New request
-    KEEP_ALIVE_WAITING --> CLOSING: Timeout/Limit
-    CLOSING --> [*]
-```
 
 ## Quick Start
 
@@ -110,28 +85,6 @@ curl http://localhost:8080/
 ## Performance
 
 
-## Project Structure
-```
-async-http-server/
-├── CMakeLists.txt              # Main build file
-├── README.md                   # Documentation
-├── .gitignore                  # Git ignores
-├── include/                    # Header files
-│   ├── server.hpp             # Main server
-│   ├── connection.hpp         # Connection class
-│   ├── connection_map.hpp     # Thread-safe container
-│   ├── reactor.hpp           # Reactor for notifications
-│   └── thread_pool.hpp       # Thread pool
-├── src/                       # Source code
-│   ├── main.cpp              # Entry point
-│   ├── server.cpp            # Server logic
-│   ├── connection.cpp        # Connection management
-│   ├── connection_map.cpp    # Container implementation
-│   ├── reactor.cpp          # Reactor implementation
-│   └── thread_pool.cpp      # Thread pool implementation
-
-```
-
 ## HTTP Features
 
 ### Supported Methods
@@ -140,7 +93,6 @@ async-http-server/
 - ⏳ `POST` - Partial support
 - ❌ `PUT`, `DELETE`, `PATCH` - In development
 
-### HTTP/1.1 Headers
 ```http
 # Supported headers
 Connection: keep-alive
@@ -148,12 +100,6 @@ Keep-Alive: timeout=5, max=100
 Content-Length: 123
 Host: example.com
 User-Agent: Custom-Client/1.0
-
-# Example keep-alive request
-GET /api/data HTTP/1.1
-Host: localhost:8080
-Connection: keep-alive
-Keep-Alive: timeout=30, max=1000
 ```
 
 ### Keep-Alive Parameters
